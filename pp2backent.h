@@ -3,6 +3,9 @@
 
 #include <QObject>
 
+namespace qstdweb {
+    class EventCallback;
+}
 class PP2Backent : public QObject
 {
     Q_OBJECT
@@ -25,7 +28,8 @@ signals:
 
 private:
     QByteArray *m_rccData;
-    bool m_fullscreen = false;
+    // bool m_fullscreen = false;
+    qstdweb::EventCallback *m_fullscreenConnection;
 };
 
 #endif // PP2BACKENT_H

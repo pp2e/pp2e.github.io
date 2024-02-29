@@ -4,7 +4,7 @@ project(PowerPoint2 VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickParticlesPrivate)
 
 qt_standard_project_setup()
 
@@ -16,6 +16,7 @@ include_directories(
 qt_add_executable(appPowerPoint2
     main.cpp
     pp2backent.h pp2backent.cpp
+    text.h text.cpp
 )
 
 qt_add_qml_module(appPowerPoint2
@@ -38,6 +39,11 @@ set_target_properties(appPowerPoint2 PROPERTIES
 target_link_libraries(appPowerPoint2
     PRIVATE Qt6::Quick Qt6::GuiPrivate
 )
+
+include_directories(${Qt6Quick_PRIVATE_INCLUDE_DIRS})
+
+# https://bugreports.qt.io/browse/QTBUG-109959
+set_property(TARGET appPowerPoint2 PROPERTY WASM_SHELL_HTML_TEMPLATE_FILE "${CMAKE_SOURCE_DIR}/wasm/wasm_shell.html")
 
 include(GNUInstallDirs)
 install(TARGETS appPowerPoint2
