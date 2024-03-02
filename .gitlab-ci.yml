@@ -8,8 +8,11 @@ before_script:
 pages:
   script:
     - mkdir build
-    - cd build
-    - cmake .. -G Ninja
+    - mkdir public
+    - qt-cmake ./ -B ./build -G Ninja
+    - cmake --build ./build
+    - cp build/appPowerPoint2.html public/
+
   artifacts:
     paths:
       # The folder that contains the files to be exposed at the Page URL
