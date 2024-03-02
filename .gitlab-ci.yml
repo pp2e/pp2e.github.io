@@ -4,7 +4,6 @@ image: stateoftheartio/qt6:6.6-wasm-aqt
 before_script:
   - echo $PATH
   - source emsdk_env.sh
-  - emsdk activate latest
 pages:
   script:
     - mkdir build
