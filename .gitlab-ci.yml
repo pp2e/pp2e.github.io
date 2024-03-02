@@ -2,7 +2,8 @@
 image: stateoftheartio/qt6:6.6-wasm-aqt
 # Functions that should be executed before the build script is run
 before_script:
-  - source emsdk.env
+  - echo $PATH
+  - source emsdk_env.sh
 pages:
   script:
     - mkdir build
