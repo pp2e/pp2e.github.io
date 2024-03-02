@@ -2,7 +2,6 @@
 image: stateoftheartio/qt6:6.6-wasm-aqt
 # Functions that should be executed before the build script is run
 before_script:
-  - echo $PATH
   - source emsdk_env.sh
 pages:
   script:
@@ -10,7 +9,9 @@ pages:
     - mkdir public
     - qt-cmake ./ -B ./build -G Ninja
     - cmake --build ./build
-    - cp build/appPowerPoint2.html public/
+    # Should exist better way to do this
+    - cp build/appPowerPoint2.js build/appPowerPoint2.wasm build/qtloader.js build/qtlogo.svg public/
+    - cp build/appPowerPoint2.html public/index.html
 
   artifacts:
     paths:
