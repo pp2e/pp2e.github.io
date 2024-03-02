@@ -8,7 +8,7 @@ pages:
   script:
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -G Ninja
   artifacts:
     paths:
       # The folder that contains the files to be exposed at the Page URL
