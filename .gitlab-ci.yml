@@ -1,5 +1,5 @@
 # The Docker image that will be used to build your app
-image: alteved2v/qt-wasm-aqt
+image: alteved2v/qt-wasm-aqt:latest
 # Functions that should be executed before the build script is run
 before_script:
   - source emsdk_env.sh
