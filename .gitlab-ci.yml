@@ -7,11 +7,11 @@ pages:
   script:
     - mkdir build
     - mkdir public
-    - qt-cmake ./ -B ./build -G Ninja
+    - qt-cmake ./ -B ./build -G Ninja -DCMAKE_INSTALL_PREFIX=./public
     - cmake --build ./build
     # Should exist better way to do this
-    - cp build/appPowerPoint2.js build/appPowerPoint2.wasm build/qtloader.js build/qtlogo.svg public/
-    - cp build/appPowerPoint2.html public/index.html
+    #- cp build/appPowerPoint2.js build/appPowerPoint2.wasm build/qtloader.js build/qtlogo.svg public/
+    #- cp build/appPowerPoint2.html public/index.html
 
   artifacts:
     paths:
