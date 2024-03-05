@@ -1,15 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform as Labs
-import QtMultimedia
+import QtQuick.Dialogs
 
 import PowerPoint2 as PP2
 
 import QtQuick.Particles
 
-Window {
-    width: 640
-    height: 480
+PP2.Window {
+    id: window
     visible: true
     title: qsTr("Hello World")
 
@@ -22,13 +21,17 @@ Window {
         id: backend
 
         onAllDone: loader.setSource("/presentation/Krim/SlideDeck.qml")
-        onFullscreenChanged: console.log("screen")
+        // onFullscreenChanged: console.log("screen")
+    }
+
+    FileDialog {
+        id: fileDialog
     }
 
     MenuBar {
         id: menuBar
 
-        y: backend.fullscreen ? -height : 0
+        y: window.fullscreen ? -height : 0
         width: parent.width
 
         Menu {
@@ -37,6 +40,10 @@ Window {
             Action {
                 text: qsTr("&Open...")
                 onTriggered: backend.loadPresentationFromFile()
+            }
+            Action {
+                text: "Open2"
+                onTriggered: fileDialog.open()
             }
             Action { text: qsTr("&Save") }
             Action { text: qsTr("Save &As...") }
@@ -47,8 +54,15 @@ Window {
             }
             Action {
                 text: qsTr("&Fullscreen")
-                onTriggered: backend.fullscreen = !backend.fullscreen
+                onTriggered: window.fullscreen = !window.fullscreen
             }
+            // Action {
+            //     text: qsTr("Full")
+            //     onTriggered: {
+            //         console.log(window.visibility)
+            //         window.visibility = window.visibility == Window.FullScreen ? Window.Windowed : Window.FullScreen
+            //     }
+            // }
         }
         Menu {
             title: qsTr("Edit")

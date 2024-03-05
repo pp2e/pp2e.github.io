@@ -6,6 +6,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickParticlesPrivate Multimedia)
 
+if(EMSCRIPTEN)
+else()
+    find_package(Qt6 6.5 REQUIRED COMPONENTS Widgets)
+endif()
+
 qt_standard_project_setup()
 
 include_directories(
@@ -17,12 +22,15 @@ qt_add_executable(appPowerPoint2
     main.cpp
     pp2backent.h pp2backent.cpp
     text.h text.cpp
+    pp2window.h
+    pp2window.cpp
 )
 
 qt_add_qml_module(appPowerPoint2
     URI PowerPoint2
     VERSION 1.0
     QML_FILES Main.qml
+    SOURCES
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -40,10 +48,17 @@ target_link_libraries(appPowerPoint2
     PRIVATE Qt6::Quick Qt6::GuiPrivate
 )
 
+if(EMSCRIPTEN)
+else()
+    target_link_libraries(appPowerPoint2
+        PRIVATE Qt6::Widgets
+    )
+endif()
+
 include_directories(${Qt6Quick_PRIVATE_INCLUDE_DIRS})
 
 # https://bugreports.qt.io/browse/QTBUG-109959
-set_property(TARGET appPowerPoint2 PROPERTY WASM_SHELL_HTML_TEMPLATE_FILE "${CMAKE_SOURCE_DIR}/wasm/wasm_shell.html")
+# set_property(TARGET appPowerPoint2 PROPERTY WASM_SHELL_HTML_TEMPLATE_FILE "${CMAKE_SOURCE_DIR}/wasm/wasm_shell.html")
 
 include(GNUInstallDirs)
 install(TARGETS appPowerPoint2
