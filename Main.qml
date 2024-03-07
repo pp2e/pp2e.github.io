@@ -5,7 +5,7 @@ import QtQuick.Dialogs
 
 import PowerPoint2 as PP2
 
-import QtQuick.Particles
+// import QtQuick.Particles
 
 PP2.Window {
     id: window
@@ -31,7 +31,7 @@ PP2.Window {
     MenuBar {
         id: menuBar
 
-        y: window.fullscreen ? -height : 0
+        //y: window.fullscreen ? -height : 0
         width: parent.width
 
         Menu {

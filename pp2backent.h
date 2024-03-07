@@ -22,21 +22,12 @@ public:
 
     Q_INVOKABLE bool loadPresentationFromFile();
 
-
-    // void setFullscreen(bool newFullscreen);
-    // bool fullscreen() const;
-
 signals:
     void allDone();
-    // void fullscreenChanged();
 
 private:
-    QByteArray *m_rccData;
-// #ifdef Q_OS_WASM
-//     qstdweb::EventCallback *m_fullscreenConnection;
-// #else
-//     QWindow *m_window;
-// #endif
+    QByteArray m_rccData2;
+    bool m_registered;
 };
 
 #endif // PP2BACKENT_H
