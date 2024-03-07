@@ -3,7 +3,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QResource>
-#include <QApplication>
+#include <QGuiApplication>
 
 #ifdef Q_OS_WASM
 #include <QtGui/private/qwasmlocalfileaccess_p.h>
@@ -57,7 +57,7 @@ bool PP2Backent::loadPresentationFromFile()
             if (m_registered)
                 if (!QResource::unregisterResource(reinterpret_cast<const uchar*>(m_rccData2.data()), "/presentation/")) {
                     qFatal() << "Cannot unload old resource while opening new";
-                    QApplication::exit(); // Die if cannot unload loaded resource
+                    QGuiApplication::exit(); // Die if cannot unload loaded resource
                 }
             m_rccData2 = fileContent;
             if (QResource::registerResource(reinterpret_cast<const uchar*>(m_rccData2.data()), "/presentation/"))
