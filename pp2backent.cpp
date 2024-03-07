@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QResource>
+#include <QApplication>
 
 #ifdef Q_OS_WASM
 #include <QtGui/private/qwasmlocalfileaccess_p.h>
@@ -12,7 +13,6 @@
 #include <emscripten/bind.h>
 #else
 #include <QFileDialog>
-#include <QApplication>
 #include <qquickwindow.h>
 #include <qqmlengine.h>
 #include "qqmlcontext.h"
@@ -35,7 +35,7 @@ bool PP2Backent::loadPresentationFromFile()
         [](int fileCount) { Q_ASSERT(fileCount == 1); },
         [this](uint64_t size, const std::string name) -> char * {
             qDebug() << name;
-            m_rccData->resize(size);
+            m_rccData2.resize(size);
             return m_rccData2.data();
         },
         [this](){
