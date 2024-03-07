@@ -43,7 +43,7 @@ bool PP2Backent::loadPresentationFromFile()
             if (m_registered)
                 if (!QResource::unregisterResource(reinterpret_cast<const uchar*>(m_rccData2.data()), "/presentation/")) {
                     qFatal() << "Cannot unload old resource while opening new";
-                    QGuiApplication.exit(); // Die if cannot unload loaded resource
+                    QGuiApplication::exit(); // Die if cannot unload loaded resource
                 }
             if (QResource::registerResource(reinterpret_cast<const uchar*>(m_rccData2.data()), "/presentation/")) {
                 qDebug() << "AllRight";
