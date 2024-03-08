@@ -6,6 +6,7 @@ import QtQuick.Dialogs
 import PowerPoint2 as PP2
 
 // import QtQuick.Particles
+import QtMultimedia
 
 PP2.Window {
     id: window
