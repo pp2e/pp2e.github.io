@@ -20,7 +20,8 @@
 #endif
 
 PP2Backent::PP2Backent(QObject *parent)
-: QObject(parent) {
+: QObject(parent)
+, m_registered(false) {
 }
 
 PP2Backent::~PP2Backent()
@@ -48,6 +49,7 @@ bool PP2Backent::loadPresentationFromFile()
             if (QResource::registerResource(reinterpret_cast<const uchar*>(m_rccData2.data()), "/presentation/")) {
                 qDebug() << "AllRight";
                 emit allDone();
+                m_registered = true;
             }
     });
 #else
@@ -60,8 +62,10 @@ bool PP2Backent::loadPresentationFromFile()
                     QGuiApplication::exit(); // Die if cannot unload loaded resource
                 }
             m_rccData2 = fileContent;
-            if (QResource::registerResource(reinterpret_cast<const uchar*>(m_rccData2.data()), "/presentation/"))
+            if (QResource::registerResource(reinterpret_cast<const uchar*>(m_rccData2.data()), "/presentation/")) {
                 emit allDone();
+                m_registered = true;
+            }
         });
 #endif
     return true;
