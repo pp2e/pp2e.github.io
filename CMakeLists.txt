@@ -45,7 +45,7 @@ set_target_properties(appPowerPoint2 PROPERTIES
 )
 
 target_link_libraries(appPowerPoint2
-    PRIVATE Qt6::Quick Qt6::GuiPrivate
+    PRIVATE Qt6::Quick Qt6::GuiPrivate Qt6::Multimedia
 )
 
 if(EMSCRIPTEN)
