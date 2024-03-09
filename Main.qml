@@ -91,21 +91,4 @@ PP2.Window {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
     }
-
-    // Video {
-    //     id: video
-    //     anchors.fill: parent
-
-    //     source: "https://www.sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4"
-
-    //     onErrorOccurred: console.log("error", errorString)
-
-    //     MouseArea {
-    //         anchors.fill: parent
-    //         onClicked: {
-    //             video.play()
-    //             console.log("video")
-    //         }
-    //     }
-    // }
 }
