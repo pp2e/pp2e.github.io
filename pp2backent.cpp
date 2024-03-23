@@ -40,7 +40,7 @@ bool PP2Backent::loadPresentationFromFile()
             qDebug() << data.size();
             return data.data();
         },
-        [data, this](){
+        [&data, this](){
             qDebug() << "File imported" << data.size();
             if (PP2RccModel::addResource(&data, "presentation")) {
                 emit allDone();
