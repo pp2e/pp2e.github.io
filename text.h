@@ -32,6 +32,7 @@ Q_DECLARE_METATYPE(Symbol)
 class QTextLayout;
 class Text: public QQuickText {
     Q_OBJECT
+    QML_NAMED_ELEMENT(Text)
     
 public:
     Text();

@@ -20,17 +20,25 @@ include_directories(
 
 qt_add_executable(appPowerPoint2
     main.cpp
-    pp2backent.h pp2backent.cpp
-    text.h text.cpp
-    pp2window.h
-    pp2window.cpp
+    # pp2inspector.h
+    # pp2inspector.cpp
 )
 
 qt_add_qml_module(appPowerPoint2
     URI PowerPoint2
     VERSION 1.0
-    QML_FILES Main.qml
     SOURCES
+        pp2window.h
+        pp2window.cpp
+        pp2backent.h
+        pp2backent.cpp
+        pp2rccmodel.h
+        pp2rccmodel.cpp
+        text.h
+        text.cpp
+    QML_FILES
+        Main.qml
+        Imports.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -45,7 +53,7 @@ set_target_properties(appPowerPoint2 PROPERTIES
 )
 
 target_link_libraries(appPowerPoint2
-    PRIVATE Qt6::Quick Qt6::GuiPrivate Qt6::Multimedia
+    PRIVATE Qt6::Quick #[[Qt6::GuiPrivate]]
 )
 
 if(EMSCRIPTEN)

@@ -11,6 +11,8 @@ class EventCallback;
 class PP2Window : public QQuickWindow
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(Window)
+
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
 public:
     explicit PP2Window(QWindow *parent = nullptr);

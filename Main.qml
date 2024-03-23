@@ -1,12 +1,8 @@
 import QtQuick
 import QtQuick.Controls
-import Qt.labs.platform as Labs
-import QtQuick.Dialogs
+import QtQuick.Layouts
 
 import PowerPoint2 as PP2
-
-import QtQuick.Particles
-import QtMultimedia
 
 PP2.Window {
     id: window
@@ -21,12 +17,11 @@ PP2.Window {
     PP2.Backend {
         id: backend
 
-        onAllDone: loader.setSource("/presentation/Krim/SlideDeck.qml")
+        onAllDone: loader.setSource("/mount/presentation/Krim/SlideDeck.qml")
         // onFullscreenChanged: console.log("screen")
-    }
-
-    FileDialog {
-        id: fileDialog
+        Component.onCompleted: {
+            printType(backend)
+        }
     }
 
     MenuBar {
@@ -43,8 +38,8 @@ PP2.Window {
                 onTriggered: backend.loadPresentationFromFile()
             }
             Action {
-                text: "Open2"
-                onTriggered: fileDialog.open()
+                text: qsTr("&Close...")
+                onTriggered: backend.unloadPresentation()
             }
             Action { text: qsTr("&Save") }
             Action { text: qsTr("Save &As...") }
@@ -57,13 +52,6 @@ PP2.Window {
                 text: qsTr("&Fullscreen")
                 onTriggered: window.fullscreen = !window.fullscreen
             }
-            // Action {
-            //     text: qsTr("Full")
-            //     onTriggered: {
-            //         console.log(window.visibility)
-            //         window.visibility = window.visibility == Window.FullScreen ? Window.Windowed : Window.FullScreen
-            //     }
-            // }
         }
         Menu {
             title: qsTr("Edit")
@@ -74,14 +62,61 @@ PP2.Window {
         Menu {
             title: qsTr("Help")
         }
+        Menu {
+            title: qsTr("Debug")
+            Action {
+                text: qsTr("Print all texts")
+                onTriggered: Inspector.printAllTexts(loader.item)
+            }
+            // Action {
+            //     text: qsTr("Debug teextt")
+            //     onTriggered: Inspector.printBindings(teextt)
+            // }
+        }
     }
 
-    Loader {
-        id: loader
+    SplitView {
         anchors.top: menuBar.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+
+        orientation: Qt.Horizontal
+
+        Item {
+            SplitView.minimumWidth: 200
+            TabBar {
+                id: leftBar
+                width: parent.width
+                TabButton {
+                    text: qsTr("Resources")
+                }
+                TabButton {
+                    text: qsTr("Slides")
+                }
+            }
+            StackLayout {
+                id: leftStack
+                width: parent.width
+                anchors.top: leftBar.bottom
+                anchors.bottom: parent.bottom
+                currentIndex: leftBar.currentIndex
+                TreeView {
+                    model: PP2.RccModel
+                    selectionModel: ItemSelectionModel {}
+                    delegate: TreeViewDelegate {}
+                    contentWidth: width
+                }
+                Rectangle {
+                    color: "red"
+                }
+            }
+        }
+
+        Loader {
+            id: loader
+            clip: true
+        }
     }
 
     Rectangle {

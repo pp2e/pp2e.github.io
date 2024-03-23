@@ -7,10 +7,6 @@
 #include <QQmlNetworkAccessManagerFactory>
 #include <QNetworkAccessManager>
 
-#include "pp2backent.h"
-#include "text.h"
-#include "pp2window.h"
-
 class MyNetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
 {
 public:
@@ -36,10 +32,6 @@ int main(int argc, char *argv[])
 
     app.setApplicationName("PowerPoint2");
     app.setApplicationDisplayName("PowerPoint2");
-
-    qmlRegisterType<PP2Backent>("PowerPoint2", 1, 0, "Backend");
-    qmlRegisterType<Text>("PowerPoint2", 1, 0, "Text");
-    qmlRegisterType<PP2Window>("PowerPoint2", 1, 0, "Window");
 
     QQmlApplicationEngine engine;
     MyNetworkAccessManagerFactory namFactory;
