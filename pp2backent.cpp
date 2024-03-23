@@ -31,10 +31,10 @@ PP2Backent::~PP2Backent()
 bool PP2Backent::loadPresentationFromFile()
 {
 #ifdef Q_OS_WASM
-    mutable QByteArray data;
+    QByteArray data;
     QWasmLocalFileAccess::openFile("*.rcc *.pptx2",
         [](int fileCount) { Q_ASSERT(fileCount == 1); },
-        [data](uint64_t size, const std::string name) -> char * {
+        [&data](uint64_t size, const std::string name) -> char * {
             qDebug() << name;
             data.resize(size);
             return data.data();
