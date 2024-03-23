@@ -106,6 +106,7 @@ PP2.Window {
                     selectionModel: ItemSelectionModel {}
                     delegate: TreeViewDelegate {}
                     contentWidth: width
+                    clip: true
                 }
                 Rectangle {
                     color: "red"

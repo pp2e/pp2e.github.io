@@ -35,8 +35,9 @@ bool PP2Backent::loadPresentationFromFile()
     QWasmLocalFileAccess::openFile("*.rcc *.pptx2",
         [](int fileCount) { Q_ASSERT(fileCount == 1); },
         [&data](uint64_t size, const std::string name) -> char * {
-            qDebug() << name;
+            qDebug() << name << size;
             data.resize(size);
+            qDebug() << data.size();
             return data.data();
         },
         [data, this](){
