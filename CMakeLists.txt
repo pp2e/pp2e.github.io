@@ -27,6 +27,9 @@ qt_add_executable(appPowerPoint2
 qt_add_qml_module(appPowerPoint2
     URI PowerPoint2
     VERSION 1.0
+    QML_FILES
+        Main.qml
+        Imports.qml
     SOURCES
         pp2window.h
         pp2window.cpp
@@ -36,9 +39,10 @@ qt_add_qml_module(appPowerPoint2
         pp2rccmodel.cpp
         text.h
         text.cpp
-    QML_FILES
-        Main.qml
-        Imports.qml
+        # lilrcc/lilrcc.h
+        # lilrcc/lilrcc.cpp
+        # lilrcc/rcc.h
+        # lilrcc/rcc.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

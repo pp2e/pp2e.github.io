@@ -125,6 +125,10 @@ QModelIndex PP2RccModel::index(int row, int column, const QModelIndex &parent) c
     ResourceNode *node = getNode(parent);
     // qDebug() << "index" << row << node->filePath() << node->m_children.values().at(row)->filePath();
     // qDebug() << "index" << node->childAt(row) << row << node->childCount() << node->fileName();
+    if (row >= node->m_children.size()) {
+        qCritical() << "Trying to get" << row << "of" << node->m_children.size() << "childs of" << node->filePath();
+        return QModelIndex();
+    }
     return createIndex(row, column, node->m_children.values().at(row));
 }
 
