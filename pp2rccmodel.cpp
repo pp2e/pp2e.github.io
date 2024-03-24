@@ -190,8 +190,10 @@ bool PP2RccModel::addResource(const QByteArray *byteArray, const QString &name)
     bool result = QResource::registerResource(data, "/mount/"+name);
     if (!result) {
         delete[] data;
+        qDebug() << "cannot register";
         return false;
     }
+    qDebug() << "can register";
     model->m_resources.insert(name, data);
 
     ResourceNode *rootNode = model->m_rootResourceNode;
