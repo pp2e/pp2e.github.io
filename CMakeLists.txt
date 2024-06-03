@@ -20,8 +20,6 @@ include_directories(
 
 qt_add_executable(appPowerPoint2
     main.cpp
-    # pp2inspector.h
-    # pp2inspector.cpp
 )
 
 qt_add_qml_module(appPowerPoint2
@@ -39,25 +37,10 @@ qt_add_qml_module(appPowerPoint2
         pp2rccmodel.cpp
         text.h
         text.cpp
-        # lilrcc/lilrcc.h
-        # lilrcc/lilrcc.cpp
-        # lilrcc/rcc.h
-        # lilrcc/rcc.cpp
-)
-
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-set_target_properties(appPowerPoint2 PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appPowerPoint2
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
 )
 
 target_link_libraries(appPowerPoint2
-    PRIVATE Qt6::Quick #[[Qt6::GuiPrivate]]
+    PRIVATE Qt6::Quick
 )
 
 if(EMSCRIPTEN)
@@ -68,13 +51,3 @@ else()
 endif()
 
 include_directories(${Qt6Quick_PRIVATE_INCLUDE_DIRS})
-
-# https://bugreports.qt.io/browse/QTBUG-109959
-# set_property(TARGET appPowerPoint2 PROPERTY WASM_SHELL_HTML_TEMPLATE_FILE "${CMAKE_SOURCE_DIR}/wasm/wasm_shell.html")
-
-include(GNUInstallDirs)
-install(TARGETS appPowerPoint2
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)

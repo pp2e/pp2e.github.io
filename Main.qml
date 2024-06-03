@@ -110,7 +110,7 @@ PP2.Window {
                     clip: true
                 }
                 Rectangle {
-                    color: "red"
+                    color: window.fullscreen ? "red" : "black"
                 }
             }
         }
