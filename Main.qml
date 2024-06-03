@@ -116,6 +116,7 @@ PP2.Window {
 
         Loader {
             id: loader
+            SplitView.fillWidth: window.fullscreen
             clip: true
         }
     }
