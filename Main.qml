@@ -84,7 +84,7 @@ PP2.Window {
         orientation: Qt.Horizontal
 
         Item {
-            SplitView.width: window.fullscreen ? 0 : 200
+            SplitView.preferredWidth: window.fullscreen ? 0 : 200
             SplitView.minimumWidth: 200
             TabBar {
                 id: leftBar
