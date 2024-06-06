@@ -17,7 +17,7 @@ PP2.Window {
     PP2.Backend {
         id: backend
 
-        onAllDone: loader.setSource("/mount/presentation/Krim/SlideDeck.qml")
+        onAllDone: loader.setSource("lilrcc:/Krim/SlideDeck.qml")
         // onFullscreenChanged: console.log("screen")
         Component.onCompleted: {
             printType(backend)
@@ -27,7 +27,6 @@ PP2.Window {
     MenuBar {
         id: menuBar
 
-        //y: window.fullscreen ? -height : 0
         width: parent.width
 
         Menu {
@@ -62,17 +61,6 @@ PP2.Window {
         Menu {
             title: qsTr("Help")
         }
-        Menu {
-            title: qsTr("Debug")
-            Action {
-                text: qsTr("Print all texts")
-                onTriggered: Inspector.printAllTexts(loader.item)
-            }
-            // Action {
-            //     text: qsTr("Debug teextt")
-            //     onTriggered: Inspector.printBindings(teextt)
-            // }
-        }
     }
 
     SplitView {
@@ -84,7 +72,6 @@ PP2.Window {
         orientation: Qt.Horizontal
 
         Item {
-            SplitView.preferredWidth: window.fullscreen ? 0 : 200
             SplitView.minimumWidth: 200
             TabBar {
                 id: leftBar
@@ -120,13 +107,5 @@ PP2.Window {
             SplitView.fillWidth: window.fullscreen
             clip: true
         }
-    }
-
-    Rectangle {
-        color: "red"
-        width: 10
-        height: 10
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
     }
 }

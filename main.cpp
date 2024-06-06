@@ -4,23 +4,7 @@
 #else
 #include <QApplication>
 #endif
-#include <QQmlNetworkAccessManagerFactory>
-#include <QNetworkAccessManager>
-
-class MyNetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
-{
-public:
-    QNetworkAccessManager *create(QObject *parent) override;
-};
-
-QNetworkAccessManager *MyNetworkAccessManagerFactory::create(QObject *parent)
-{
-    QNetworkAccessManager *nam = new QNetworkAccessManager(parent);
-
-    qDebug() << "created noom";
-
-    return nam;
-}
+#include "lilrccnetworkaccessmanager.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,8 +18,8 @@ int main(int argc, char *argv[])
     app.setApplicationDisplayName("PowerPoint2");
 
     QQmlApplicationEngine engine;
-    MyNetworkAccessManagerFactory namFactory;
-    engine.setNetworkAccessManagerFactory(&namFactory);
+    LilrccNetworkAccessManagerFactory lilnamFactory;
+    engine.setNetworkAccessManagerFactory(&lilnamFactory);
     const QUrl url(u"qrc:/PowerPoint2/Main.qml"_qs);
     QObject::connect(
         &engine,

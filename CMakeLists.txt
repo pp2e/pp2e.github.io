@@ -5,6 +5,7 @@ project(PowerPoint2 VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickParticlesPrivate Multimedia)
+find_package(zstd)
 
 if(EMSCRIPTEN)
 else()
@@ -20,6 +21,14 @@ include_directories(
 
 qt_add_executable(appPowerPoint2
     main.cpp
+    lilrcc/tree.cpp
+    lilrcc/tree.h
+    lilrcc/lilrcc.cpp
+    lilrcc/lilrcc.h
+    lilrcc/resourcereader.cpp
+    lilrcc/resourcereader.h
+    lilrcc/resourcewriter.cpp
+    lilrcc/resourcewriter.h
 )
 
 qt_add_qml_module(appPowerPoint2
@@ -37,10 +46,12 @@ qt_add_qml_module(appPowerPoint2
         pp2rccmodel.cpp
         text.h
         text.cpp
+        lilrccnetworkaccessmanager.h
+        lilrccnetworkaccessmanager.cpp
 )
 
 target_link_libraries(appPowerPoint2
-    PRIVATE Qt6::Quick
+    PRIVATE Qt6::Quick zstd::libzstd_static
 )
 
 if(EMSCRIPTEN)
