@@ -18,10 +18,12 @@ PP2Window::PP2Window(QWindow *parent)
     // To not scare user with Qt's internal windows in browser
     showFullScreen();
 #else
-    connect(this, &QQuickWindow::visibilityChanged,
-            this, &PP2Window::fullscreenChanged);
+    //connect(this, &QQuickWindow::visibilityChanged,
+    //        this, &PP2Window::fullscreenChanged);
 #endif
 }
+
+PP2Window::~PP2Window() {}
 
 bool PP2Window::fullscreen() const
 {

@@ -29,11 +29,17 @@ protected:
 
 class LilrccNetworkReply : public QNetworkReply {
 public:
-    explicit LilrccNetworkReply(QObject *parent = nullptr);
-    ~LilrccNetworkReply();
+    explicit LilrccNetworkReply(QByteArray data, QObject *parent = nullptr);
+    ~LilrccNetworkReply() override;
 
-    qint64 readData(char *data, qint64 maxlen);
-    void abort();
+    void abort() override;
+    qint64 bytesAvailable() const override;
+
+protected:
+    qint64 readData(char *data, qint64 maxlen) override;
+
+private:
+    int m_offset = 0;
 };
 
 #endif // LILRCCNETWORKACCESSMANAGER_H

@@ -5,7 +5,7 @@ project(PowerPoint2 VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickParticlesPrivate Multimedia)
-find_package(zstd)
+find_package(zstd REQUIRED)
 
 if(EMSCRIPTEN)
 else()
@@ -51,7 +51,7 @@ qt_add_qml_module(appPowerPoint2
 )
 
 target_link_libraries(appPowerPoint2
-    PRIVATE Qt6::Quick zstd::libzstd_static
+    PRIVATE Qt6::Quick #[[zstd::libzstd_static]] zstd
 )
 
 if(EMSCRIPTEN)

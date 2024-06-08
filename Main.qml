@@ -8,6 +8,8 @@ PP2.Window {
     id: window
     visible: true
     title: qsTr("Hello World")
+    width: 400
+    height: 300
 
     Rectangle {
         anchors.fill: parent
@@ -106,6 +108,11 @@ PP2.Window {
             id: loader
             SplitView.fillWidth: window.fullscreen
             clip: true
+
+            Button {
+                text: "load"
+                onClicked: loader.setSource("lilrcc:/Krim/SlideDeck.qml")
+            }
         }
     }
 }
