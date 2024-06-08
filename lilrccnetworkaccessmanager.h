@@ -24,6 +24,8 @@ public:
 protected:
     QNetworkReply *createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) override;
 
+    QIODevice *m_device = nullptr;
+    ResourceReader *m_reader = nullptr;
     ResourceLibrary *m_reslib = nullptr;
 };
 
@@ -40,6 +42,7 @@ protected:
 
 private:
     int m_offset = 0;
+    QByteArray m_data;
 };
 
 #endif // LILRCCNETWORKACCESSMANAGER_H

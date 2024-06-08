@@ -18,25 +18,26 @@ QNetworkAccessManager *LilrccNetworkAccessManagerFactory::create(QObject *parent
 LilrccNetworkAccessManager::LilrccNetworkAccessManager(QObject *parent)
     : QNetworkAccessManager{parent}
 {
-    QFile file("/home/eugen/Projects/lilrcc/gol.rcc");
-    file.open(QIODeviceBase::ReadOnly);
-    ResourceReader reader(&file);
-    m_reslib = new ResourceLibrary(&reader);
-    // QString error;
-    // m_reslib->ls("/Krim/", error);
-    // QByteArray data = m_reslib->getFile()
+    m_device = new QFile("/home/eugen/Projects/dddd.rcc");
+    m_device->open(QIODeviceBase::ReadOnly);
+    m_reader = new ResourceReader(m_device);
+    m_reslib = new ResourceLibrary(m_reader);
 }
 
 LilrccNetworkAccessManager::~LilrccNetworkAccessManager() {
     if (m_reslib) delete m_reslib;
+    if (m_reader) delete m_reader;
+    if (m_device) delete m_device;
 }
 
 QNetworkReply *LilrccNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) {
-    qDebug() << op;
     QUrl url = request.url();
+    qDebug() << url;
     if (url.scheme() == "lilrcc") {
-        qDebug() << "return lilrcc reply";
-        QNetworkReply *reply = new LilrccNetworkReply(request, this);
+        QString error;
+        QByteArray data = m_reslib->getFile(url.path(), error);
+        if (!error.isEmpty()) qDebug() << "cannot read:" << error;
+        QNetworkReply *reply = new LilrccNetworkReply(data, this);
         return reply;
     }
     return QNetworkAccessManager::createRequest(op, request, outgoingData);

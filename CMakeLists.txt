@@ -19,6 +19,8 @@ include_directories(
     qt-web-utils
 )
 
+add_subdirectory(lilrcc)
+
 qt_add_executable(appPowerPoint2
     main.cpp
     lilrcc/tree.cpp
