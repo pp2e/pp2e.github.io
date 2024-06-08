@@ -32,7 +32,6 @@ protected:
 class LilrccNetworkReply : public QNetworkReply {
 public:
     explicit LilrccNetworkReply(QByteArray data, QObject *parent = nullptr);
-    ~LilrccNetworkReply() override;
 
     void abort() override;
     qint64 bytesAvailable() const override;
@@ -43,6 +42,14 @@ protected:
 private:
     int m_offset = 0;
     QByteArray m_data;
+};
+
+class NotFoundNetworkReply : public QNetworkReply {
+public:
+    explicit NotFoundNetworkReply(QObject *parent = nullptr);
+    void abort() override;
+protected:
+    qint64 readData(char *data, qint64 maxlen) override;
 };
 
 #endif // LILRCCNETWORKACCESSMANAGER_H

@@ -33,10 +33,17 @@ LilrccNetworkAccessManager::~LilrccNetworkAccessManager() {
 QNetworkReply *LilrccNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) {
     QUrl url = request.url();
     qDebug() << url;
+
+    // auto local = QNetworkAccessManager::createRequest(op, QNetworkRequest({"/gol/phcel"}), outgoingData);
+
     if (url.scheme() == "lilrcc") {
-        QString error;
+        return QNetworkAccessManager::createRequest(op, QNetworkRequest(QUrl("file:/home/eugen/Projects" + url.path())), outgoingData);
+        Lilrcc::Error error;
         QByteArray data = m_reslib->getFile(url.path(), error);
-        if (!error.isEmpty()) qDebug() << "cannot read:" << error;
+        if (error != Lilrcc::NoError)
+            return new NotFoundNetworkReply(this);
+        qDebug() << "/home/eugen/Projects" + url.path();
+        // if (!error.isEmpty()) qDebug() << "cannot read:" << error;
         QNetworkReply *reply = new LilrccNetworkReply(data, this);
         return reply;
     }
@@ -49,10 +56,6 @@ LilrccNetworkReply::LilrccNetworkReply(QByteArray data, QObject *parent)
 {
     setOpenMode(ReadOnly);
     QTimer::singleShot(0, this, SIGNAL(finished()));
-}
-
-LilrccNetworkReply::~LilrccNetworkReply() {
-    qDebug() << "destr";
 }
 
 void LilrccNetworkReply::abort() {}
@@ -70,4 +73,18 @@ qint64 LilrccNetworkReply::readData(char *data, qint64 maxlen) {
     memcpy(data, m_data.constData() + m_offset, len);
     m_offset += len;
     return len;
+}
+
+NotFoundNetworkReply::NotFoundNetworkReply(QObject *parent)
+    : QNetworkReply(parent)
+{
+    setAttribute(QNetworkRequest::HttpStatusCodeAttribute, 404);
+    setAttribute(QNetworkRequest::HttpReasonPhraseAttribute, "Not found");
+    QTimer::singleShot(0, this, SIGNAL(finished()));
+}
+
+void NotFoundNetworkReply::abort() {}
+
+qint64 NotFoundNetworkReply::readData(char *data, qint64 maxlen){
+    return -1;
 }
