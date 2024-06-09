@@ -19,6 +19,7 @@
 #endif
 
 #include "pp2rccmodel.h"
+#include "lilrccnetworkaccessmanager.h"
 
 PP2Backent::PP2Backent(QObject *parent)
 : QObject(parent) {
@@ -47,13 +48,20 @@ bool PP2Backent::loadPresentationFromFile()
             }
     });
 #else
-    QFileDialog::getOpenFileContent("*.rcc *.pptx2",
-        [this](const QString &fileName, const QByteArray &fileContent) {
-            qDebug() << "opened file" << fileName;
-            if (PP2RccModel::addResource(&fileContent, "presentation")) {
-                emit allDone();
-            }
-        });
+    // QFileDialog::getOpenFileContent("*.rcc *.pptx2",
+    //     [this](const QString &fileName, const QByteArray &fileContent) {
+    //         qDebug() << "opened file" << fileName;
+    //         // if (PP2RccModel::addResource(&fileContent, "presentation")) {
+    //         //     emit allDone();
+    //         // }
+    //     });
+    QString fname = QFileDialog::getOpenFileName();
+    qDebug() << fname;
+    QFile *file = new QFile(fname);
+    file->open(QIODevice::ReadOnly);
+    LilrccLibraryHandler::getInstance()->loadDevice(file);
+    qDebug() << "load device";
+
 #endif
     return true;
 }

@@ -9,6 +9,22 @@
 #include "lilrcc/resourcereader.h"
 #include "lilrcc/tree.h"
 
+class LilrccLibraryHandler {
+public:
+    static LilrccLibraryHandler *getInstance();
+    void loadDevice(QIODevice *device);
+    ResourceLibrary *getLibrary();
+
+private:
+    LilrccLibraryHandler();
+    ~LilrccLibraryHandler();
+
+private:
+    QIODevice *m_device = nullptr;
+    ResourceReader *m_reader = nullptr;
+    ResourceLibrary *m_reslib = nullptr;
+};
+
 class LilrccNetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
 {
 public:
@@ -23,10 +39,6 @@ public:
 
 protected:
     QNetworkReply *createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) override;
-
-    QIODevice *m_device = nullptr;
-    ResourceReader *m_reader = nullptr;
-    ResourceLibrary *m_reslib = nullptr;
 };
 
 class LilrccNetworkReply : public QNetworkReply {

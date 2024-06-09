@@ -53,7 +53,7 @@ qt_add_qml_module(appPowerPoint2
 )
 
 target_link_libraries(appPowerPoint2
-    PRIVATE Qt6::Quick #[[zstd::libzstd_static]] zstd
+    PRIVATE Qt6::Quick #[[zstd::libzstd_static]] zstd lilrcc
 )
 
 if(EMSCRIPTEN)
