@@ -30,7 +30,7 @@ QNetworkReply *LilrccNetworkAccessManager::createRequest(Operation op, const QNe
     // auto local = QNetworkAccessManager::createRequest(op, QNetworkRequest({"/gol/phcel"}), outgoingData);
 
     if (url.scheme() == "lilrcc") {
-        // return QNetworkAccessManager::createRequest(op, QNetworkRequest(QUrl("file:/home/eugen/Projects" + url.path())), outgoingData);
+        return QNetworkAccessManager::createRequest(op, QNetworkRequest(QUrl("file:/home/eugen/Projects/Krim" + url.path())), outgoingData);
         Lilrcc::Error error;
         QByteArray data = LilrccLibraryHandler::getInstance()->getLibrary()->getFile(url.path(), error);
         if (error != Lilrcc::NoError) {

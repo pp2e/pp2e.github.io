@@ -19,7 +19,7 @@ PP2.Window {
     PP2.Backend {
         id: backend
 
-        onAllDone: loader.setSource("lilrcc:/Krim/SlideDeck.qml")
+        onAllDone: loader.setSource("lilrcc:/SlideDeck.qml")
         // onFullscreenChanged: console.log("screen")
         Component.onCompleted: {
             printType(backend)
@@ -111,7 +111,7 @@ PP2.Window {
 
             Button {
                 text: "load"
-                onClicked: loader.setSource("lilrcc:/Krim/SlideDeck.qml")
+                onClicked: loader.setSource("lilrcc:/SlideDeck.qml")
             }
         }
     }
