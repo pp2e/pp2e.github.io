@@ -111,7 +111,7 @@ PP2.Window {
 
             Button {
                 text: "load"
-                onClicked: loader.setSource("lilrcc:/SlideDeck.qml")
+                onClicked: loader.setSource("lilrcc:/Krim/SlideDeck.qml")
             }
         }
     }

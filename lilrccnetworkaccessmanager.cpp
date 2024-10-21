@@ -25,20 +25,42 @@ LilrccNetworkAccessManager::~LilrccNetworkAccessManager() {
 
 QNetworkReply *LilrccNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) {
     QUrl url = request.url();
-    qDebug() << url;
+    // qDebug() << url;
 
     // auto local = QNetworkAccessManager::createRequest(op, QNetworkRequest({"/gol/phcel"}), outgoingData);
 
     if (url.scheme() == "lilrcc") {
-        return QNetworkAccessManager::createRequest(op, QNetworkRequest(QUrl("file:/home/eugen/Projects/Krim" + url.path())), outgoingData);
-        Lilrcc::Error error;
+        // qDebug() << "request";
+        // return QNetworkAccessManager::createRequest(op, QNetworkRequest(QUrl("file:/home/eugen/Projects/Krim" + url.path())), outgoingData);
+        Lilrcc::Error error = Lilrcc::Error::NoError;
+        if (!LilrccLibraryHandler::getInstance()->getLibrary()) {
+            qDebug() << "nope";
+            return QNetworkAccessManager::createRequest(op, request, outgoingData);
+        }
+
+        if (url.fileName() == "qmldir") {
+            QString path = url.path().chopped(7);
+            qDebug() << "qmldir" << path;
+            QList<QString> names = LilrccLibraryHandler::getInstance()->getLibrary()->ls(path, error);
+            QString data = "";
+            for (QString name : names) {
+                if (name.endsWith(".qml"))
+                    data += name.chopped(4) + " " + name + "\n";
+            }
+            QNetworkReply *reply = new LilrccNetworkReply(data.toLocal8Bit(), this);
+            return reply;
+        }
+
         QByteArray data = LilrccLibraryHandler::getInstance()->getLibrary()->getFile(url.path(), error);
+        // qDebug() << "data" << data;
         if (error != Lilrcc::NoError) {
             Lilrcc::printError(error);
+            qDebug() << "error";
             // return QNetworkAccessManager::createRequest(op, QNetworkRequest({"/go/gooo"}), outgoingData);
             return new NotFoundNetworkReply(this);
         }
         // if (!error.isEmpty()) qDebug() << "cannot read:" << error;
+        // qDebug() << "lilrcc";
         QNetworkReply *reply = new LilrccNetworkReply(data, this);
         return reply;
     }
