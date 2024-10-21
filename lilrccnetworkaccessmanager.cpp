@@ -10,8 +10,6 @@ QNetworkAccessManager *LilrccNetworkAccessManagerFactory::create(QObject *parent
 {
     QNetworkAccessManager *nam = new LilrccNetworkAccessManager(parent);
 
-    qDebug() << "created little noom";
-
     return nam;
 }
 
