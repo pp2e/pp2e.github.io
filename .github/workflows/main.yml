@@ -22,6 +22,7 @@ jobs:
         host: 'linux'
         target: 'desktop'
         arch: 'linux_gcc_64'
+        modules: 'qtmultimedia'
         tools: 'tools_ninja tools_cmake'
         dir: '${{ runner.temp }}'
         install-deps: 'true'
@@ -35,6 +36,7 @@ jobs:
         host: 'linux'
         target: 'desktop'
         arch: 'wasm_singlethread'
+        modules: 'qtmultimedia'
         dir: '${{ runner.temp }}'
         install-deps: 'true'
         cache: true
