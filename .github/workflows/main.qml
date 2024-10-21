@@ -1,0 +1,73 @@
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-wasm:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Host Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: 6.7.2
+        host: 'linux'
+        target: 'desktop'
+        arch: 'linux_gcc_64'
+        tools: 'tools_ninja tools_cmake'
+        dir: '${{ runner.temp }}'
+        install-deps: 'true'
+        cache: true
+          
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        aqtsource: 'git+https://github.com/AlTeveDev/aqtinstall'
+        version: 6.7.2
+        host: 'linux'
+        target: 'desktop'
+        arch: 'wasm_singlethread'
+        dir: '${{ runner.temp }}'
+        install-deps: 'true'
+        cache: true
+
+    - name: Install emsdk
+      run: |
+        curl -fLs https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.50.tar.gz > ${{ runner.temp }}/emsdk.tar.gz
+        mkdir -p ${{ runner.temp }}/emsdk
+        tar --strip-components 1 -C ${{ runner.temp }}/emsdk -xf ${{ runner.temp }}/emsdk.tar.gz
+        rm -f ${{ runner.temp }}/emsdk.tar.gz
+        ${{ runner.temp }}/emsdk/emsdk install 3.1.50
+        ${{ runner.temp }}/emsdk/emsdk activate 3.1.50
+
+    - name: Build
+      run: |
+        source ${{ runner.temp }}/emsdk/emsdk_env.sh
+        ls ${{ env.QT_ROOT_DIR }}/..
+        export QT_HOST_PATH=${{ env.QT_ROOT_DIR }}/../gcc_64
+        chmod +x ${{ env.QT_ROOT_DIR }}/bin/qt-cmake
+        ${{ env.QT_ROOT_DIR }}/bin/qt-cmake -B ./build
+        cmake --build build
+
+    - name: Package
+      run: |
+        mkdir public
+        cp build/*.js build/*.wasm build/qtlogo.svg public
+        cp build/*.html public/index.html
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: public/
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
